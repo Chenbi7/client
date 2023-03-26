@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -16,6 +16,7 @@ import { Keyboard } from "react-native";
 import Toast from 'react-native-toast-message';
 import Loading from "../component/modal-loading";
 import HttpService from "../services/http-service";
+import RadioButton from "../component/radioButton";
 
 function RegistrationScreen({navigation}) {
   const theme = useTheme();
@@ -41,6 +42,8 @@ function RegistrationScreen({navigation}) {
   const [isValidMail, setIsValidMail] = React.useState(true);
   const regexUserName = new RegExp("^.*[a-zA-Z\u0590-\u05FF\u200f\u200e ]+.*$");
   const regexPhoneNumber = new RegExp("05[0-9]{8}$");
+  const userTypeOptions = ["הורה", "בייביסיטר"];
+  const [userType, setUserType] = useState("הורה");
 
   // React.useEffect(() => {
   //   return navigation.addListener("focus", () => {
@@ -257,6 +260,7 @@ function RegistrationScreen({navigation}) {
                           {" "}
                         </Paragraph>
                       )}
+                      <RadioButton data={userTypeOptions} onSelect={(type) => setUserType(type)}></RadioButton>
                     </View>
                   ) : null}
                   <Button
