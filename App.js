@@ -11,6 +11,7 @@ import HomePageParent from "./screens/home-page-parent";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Button from "react-native-paper/src/components/Button";
+import BabysitterDetails from './screens/babysitterDetails';
 
 const Stack = createStackNavigator();
 //
@@ -44,6 +45,7 @@ export default function App() {
                 <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
                 <Stack.Screen name="VerifyMail" component={VerifyMail} />
+                <Stack.Screen name="BabysitterDetails" component={BabysitterDetails} />
             </Stack.Navigator>
         </NavigationContainer></PaperProvider>
     );

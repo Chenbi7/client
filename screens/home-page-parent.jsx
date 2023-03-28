@@ -9,25 +9,28 @@ import Toast from 'react-native-toast-message';
 import Loading from "../component/modal-loading";
 
 
-function HomePageParent({navigation}) {
+function HomePageParent({ navigation }) {
     const theme = useTheme();
     const [searchText, setSearchText] = React.useState("");
     const [users, setUsers] = React.useState([]);
-    const [currentBabySitterDisplay, setCurrentBabySitterDisplay] = React.useState([
-        {
-
-        }
-    ]);
+    const [currentBabySitterDisplay, setCurrentBabySitterDisplay] =
+      React.useState([{}]);
+  
+    React.useEffect(() => {
+      setUsers(["maor"]);
+      setCurrentBabySitterDisplay([
+          { name: "מאור בבר", age: 26, rate:4, address: "חנקין 3, ראשון לציון", location: "ישראל", phoneNumber: "054-9542812", description:"שלום, שמי מאור ואני מסתדר מעולה עם ילדים" },
+          { name: "חן ביטון", age: 23, rate:3, address: "חנקין 3, ראשון לציון", location: "ישראל", phoneNumber: "054-9542812", description:"היי אני חן ואני מבשלת מעולה" },
+      ]);
+    }, []);
     const [visibleLoading, setVisibleLoading] = React.useState(false);
     //
     // React.useEffect(() => {
     //     getAllBabySitter()
     // }, []);
-
-    function getAllBabySitter() {
-
-    }
-
+  
+    function getAllBabySitter() {}
+  
 
     return (
         <ImageBackground style={globalStyles.imageBackground}>
@@ -67,7 +70,9 @@ function HomePageParent({navigation}) {
                     {users.length > 0 ? currentBabySitterDisplay.map((user, index) => (
                         <TouchableRipple
                             style={styles.rowButton}
-                            key={index}>
+                            key={index}
+                            onPress={() => navigation.navigate('BabysitterDetails', {babysitter: user})}
+                            >
                             <View>
                                 <View style={[styles.tableRow, {height: 90, width: '100%'}]}>
 
