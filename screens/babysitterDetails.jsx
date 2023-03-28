@@ -5,6 +5,8 @@ import { Text, StyleSheet } from 'react-native';
 import {useRoute} from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons';
 import ReviewBox from "../component/reviewBox";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import AddReview from "../component/addReview";
 
 function BabysitterDetails() {
     const route = useRoute();
@@ -13,6 +15,7 @@ function BabysitterDetails() {
     const babysitter = route.params.babysitter;
     const [rating, setRating] = useState(3);
     const [reviews, setReviews] = useState([]);
+    const [isOnAddReview, setIsOnAddReview] = useState(false);
 
     const paintStars = () => {
         for(let i = 0; i < 5; i++) {
@@ -53,12 +56,22 @@ function BabysitterDetails() {
 
             </View>
 
-            <Text style={styles.reviewsTitle}>ביקורות:</Text>
-            <ScrollView persistentScrollbar={true} style={styles.reviewsContainer}>
-                {reviews.map((review) => {
-                    return(<ReviewBox review={review}/>)
-                })}
-            </ScrollView>
+            <View style={styles.reviewRow}>
+                {!isOnAddReview ? <Pressable style={styles.addReview} onPress={() => setIsOnAddReview(true)}>
+                    <Text style={styles.addReviewText}>הוספת ביקורת</Text>
+                </Pressable> : <Pressable style={styles.addReview} onPress={() => setIsOnAddReview(false)}>
+                    <Text style={styles.addReviewText}>שמירת ביקורת</Text>
+                </Pressable>}
+                <Text style={styles.reviewsTitle}>{isOnAddReview ? "הוספת ביקורת" : 'ביקורות:'}</Text>
+            </View>
+            {!isOnAddReview ? 
+                <ScrollView persistentScrollbar={true} style={styles.reviewsContainer}>
+                    {reviews.map((review) => {
+                        return(<ReviewBox review={review}/>)
+                    })}
+                </ScrollView> : 
+                <View style={styles.reviewsContainer}><AddReview username="נועה"></AddReview></View>}
+            
         </View>
     );
 }
@@ -97,7 +110,6 @@ const styles = StyleSheet.create({
         color: '#404040',
     },
     stars: {
-      alignSelf: 'flex-end',
       marginTop: -20,
       display: "flex",
       flexDirection: "row",
@@ -118,10 +130,27 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         marginHorizontal: 10
     },
+    reviewRow: {
+        display: "flex",
+        flexDirection: "row",
+        marginBottom: 5
+    },
     reviewsTitle: {
+        marginLeft: 'auto',
+        height: 35,
         fontSize: 25,
         marginRight: 25,
-        marginBottom: 5
+        marginTop: 8
+    },
+    addReview: {
+        borderWidth: 2,
+        borderColor: 'pink',
+        marginLeft: 20
+    },
+    addReviewText: {
+        fontSize: 17,
+        color: "#404040",
+        padding: 6
     }
 });
 
