@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Text, StyleSheet } from 'react-native';
@@ -52,17 +52,15 @@ function BabysitterDetails() {
                     <Text style={styles.details}>{babysitter.address}</Text>
                     <Text style={styles.details}>{babysitter.phoneNumber}</Text>
                 </View>
-            <Text style={styles.description}>{babysitter.description}</Text>
-
+            
+                {!isOnAddReview ? <Text style={styles.description}>{babysitter.description}</Text> : <></>}
             </View>
 
             <View style={styles.reviewRow}>
                 {!isOnAddReview ? <Pressable style={styles.addReview} onPress={() => setIsOnAddReview(true)}>
                     <Text style={styles.addReviewText}>הוספת ביקורת</Text>
-                </Pressable> : <Pressable style={styles.addReview} onPress={() => setIsOnAddReview(false)}>
-                    <Text style={styles.addReviewText}>שמירת ביקורת</Text>
-                </Pressable>}
-                <Text style={styles.reviewsTitle}>{isOnAddReview ? "הוספת ביקורת" : 'ביקורות:'}</Text>
+                </Pressable> : <></>}
+                <Text style={styles.reviewsTitle}>{isOnAddReview ? "הוספת ביקורת" : "ביקורות:"}</Text>
             </View>
             {!isOnAddReview ? 
                 <ScrollView persistentScrollbar={true} style={styles.reviewsContainer}>
@@ -70,7 +68,7 @@ function BabysitterDetails() {
                         return(<ReviewBox review={review}/>)
                     })}
                 </ScrollView> : 
-                <View style={styles.reviewsContainer}><AddReview username="נועה"></AddReview></View>}
+                <View style={styles.reviewsContainer}><AddReview username="נועה" setIsOnAddReview={() => setIsOnAddReview(false)}></AddReview></View>}
             
         </View>
     );
@@ -143,6 +141,8 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     addReview: {
+        backgroundColor: '#e3e1e1',
+        borderRadius: 3,
         borderWidth: 2,
         borderColor: 'pink',
         marginLeft: 20
