@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   KeyboardAvoidingView,
-  ScrollView, Text,
+  ScrollView,
+  Text,
   TouchableWithoutFeedback,
   ImageBackground,
 } from "react-native";
@@ -13,12 +14,12 @@ import { useTheme } from "react-native-paper";
 import globalStyles from "../styles";
 import { Keyboard } from "react-native";
 
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 import Loading from "../component/modal-loading";
 import HttpService from "../services/http-service";
 import RadioButton from "../component/radioButton";
 
-function RegistrationScreen({navigation}) {
+function RegistrationScreen({ navigation }) {
   const theme = useTheme();
 
   const [email, setEmail] = React.useState("");
@@ -33,7 +34,8 @@ function RegistrationScreen({navigation}) {
     React.useState(true);
   const [isValidPassword, setIsValidPassword] = React.useState(true);
   const [visibleLoading, setVisibleLoading] = React.useState(false);
-  const [visibleSendMailLoading, setVisibleSendMailLoading] = React.useState(false);
+  const [visibleSendMailLoading, setVisibleSendMailLoading] =
+    React.useState(false);
   const [isUserRegistered, setIsUserRegistered] = React.useState(false);
   const [userId, setUserId] = React.useState("");
   const [isValidUserName, setIsValidUserName] = React.useState(true);
@@ -54,7 +56,7 @@ function RegistrationScreen({navigation}) {
 
   return (
     <ImageBackground style={globalStyles.imageBackground}>
-      <KeyboardAvoidingView behavior={"padding"} >
+      <KeyboardAvoidingView behavior={"padding"}>
         <ScrollView>
           <TouchableWithoutFeedback
             onPress={() => Keyboard.dismiss()}
@@ -63,7 +65,6 @@ function RegistrationScreen({navigation}) {
             <View>
               <ScrollView>
                 <View style={styles.mainContainer}>
-
                   <TextInput
                     outlineColor={"gray"}
                     activeOutlineColor={"gray"}
@@ -157,15 +158,12 @@ function RegistrationScreen({navigation}) {
                         }}
                       />
 
-                        <Paragraph
-                          style={[
-                            styles.validationFail,
-                            globalStyles.errorColor,
-                          ]}
-                          color={theme.colors.error}
-                        >
-                          יש להזין מייל תקין
-                        </Paragraph>
+                      <Paragraph
+                        style={[styles.validationFail, globalStyles.errorColor]}
+                        color={theme.colors.error}
+                      >
+                        יש להזין מייל תקין
+                      </Paragraph>
 
                       <TextInput
                         secureTextEntry={passwordVisible}
@@ -260,7 +258,10 @@ function RegistrationScreen({navigation}) {
                           {" "}
                         </Paragraph>
                       )}
-                      <RadioButton data={userTypeOptions} onSelect={(type) => setUserType(type)}></RadioButton>
+                      <RadioButton
+                        data={userTypeOptions}
+                        onSelect={(type) => setUserType(type)}
+                      ></RadioButton>
                     </View>
                   ) : null}
                   <Button
@@ -279,14 +280,14 @@ function RegistrationScreen({navigation}) {
                     <Text>{isUpdateScreen ? "עדכון" : "הירשם"}</Text>
                   </Button>
                   <Loading
-                      visibleLoading={visibleLoading}
-                      setVisibleLoading={setVisibleLoading}
-                      message={"עדכון המשתמש מתבצע"}
+                    visibleLoading={visibleLoading}
+                    setVisibleLoading={setVisibleLoading}
+                    message={"עדכון המשתמש מתבצע"}
                   />
                   <Loading
-                      visibleLoading={visibleSendMailLoading}
-                      setVisibleLoading={setVisibleSendMailLoading}
-                      message={"שולח מייל אימות"}
+                    visibleLoading={visibleSendMailLoading}
+                    setVisibleLoading={setVisibleSendMailLoading}
+                    message={"שולח מייל אימות"}
                   />
                 </View>
               </ScrollView>
@@ -299,35 +300,40 @@ function RegistrationScreen({navigation}) {
 
   function saveUser() {
     if (isValidInput()) {
-    createUser()
+      createUser();
     }
   }
 
   function createUser() {
-    setVisibleSendMailLoading(true)
-    HttpService.sendCode({email: email}).then(user => {
-      navigation.navigate('VerifyMail', {type: 'createUser',
-        email: email,
-        user: {
-          name: username,
-          mail: email,
-          location: {
-            latitude: 32.32323,
-            longitude: 32.65655,
+    setVisibleSendMailLoading(true);
+    HttpService.sendCode({ email: email })
+      .then((user) => {
+        navigation.navigate("VerifyMail", {
+          type: "createUser",
+          email: email,
+          user: {
+            type: userType,
+            name: username,
+            mail: email,
+            location: {
+              latitude: 32.32323,
+              longitude: 32.65655,
+            },
+            phoneNumber: phoneNumber,
+            password: password,
           },
-          phoneNumber: phoneNumber,
-          password: password,
-        } })
-      //   does not all fields in user
-    }).catch((err) => {
-      Toast.show({
-            type: 'error',
-            text1: '            שליחת קוד נכשלה       '
-          }
-      );
-    }).finally(() => {
-      setVisibleSendMailLoading(false);
-    })
+        });
+        //   does not all fields in user
+      })
+      .catch((err) => {
+        Toast.show({
+          type: "error",
+          text1: "            שליחת קוד נכשלה       ",
+        });
+      })
+      .finally(() => {
+        setVisibleSendMailLoading(false);
+      });
   }
 
   function isValidInput() {
@@ -375,7 +381,7 @@ const styles = StyleSheet.create({
     direction: "rtl",
     marginLeft: 20,
     marginTop: 0,
-    fontFamily: 'Inter-Heebo'
+    fontFamily: "Inter-Heebo",
   },
   textRight: {
     textAlign: "right",

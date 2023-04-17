@@ -137,11 +137,11 @@ function LoginScreen({navigation}) {
 
     function login() {
         if (isValidData()) {
-            navigation.navigate('HomePage')
+            navigation.navigate('HomePageBabysitter')
             setVisibleLoading(true);
             HttpService.login({mail: email, password: password})
                 .then((user) => {
-                    navigation.navigate('HomePage')
+                    navigation.navigate('HomePageBabysitter')
                 }).catch(err => {
                 Toast.show({
                     type: 'error',

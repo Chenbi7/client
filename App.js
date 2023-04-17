@@ -8,6 +8,8 @@ import NewPasswordScreen from "./screens/new-password";
 import ForgotPassword from "./screens/forgotPassword";
 import VerifyMail from "./screens/verify-mail";
 import HomePageParent from "./screens/home-page-parent";
+import HomePageBabysitter from "./screens/home-page-babysitter";
+import ReviewsPage from "./screens/reviews";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Button from "react-native-paper/src/components/Button";
@@ -42,6 +44,8 @@ export default function App() {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Registration" component={RegistrationScreen} />
                 <Stack.Screen name="HomePage" component={HomePageParent} />
+                <Stack.Screen name="HomePageBabysitter" component={HomePageBabysitter} />
+                <Stack.Screen name="ReviewsPage" component={ReviewsPage} />
                 <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
                 <Stack.Screen name="VerifyMail" component={VerifyMail} />
