@@ -27,29 +27,29 @@ function HomePageParent({ navigation }) {
   const [currentBabySitterDisplay, setCurrentBabySitterDisplay] =
     React.useState([{}]);
 
-    React.useEffect(() => {
-        setUsers(["maor"]);
-        setCurrentBabySitterDisplay([
-          {
-            time: "14:00",
-            date: "23.2.2023",
-            rate: 4,
-            address: "חנקין 3, ראשון לציון",
-            location: "ישראל",
-            phoneNumber: "054-9542812",
-            description: "שלום, שמי מאור ואני מסתדר מעולה עם ילדים",
-          },
-          {
-            time: "16:00",
-            date: "5.5.2023",
-            rate: 3,
-            address: "חנקין 3, ראשון לציון",
-            location: "ישראל",
-            phoneNumber: "054-9542812",
-            description: "היי אני חן ואני מבשלת מעולה",
-          },
-        ]);
-      }, []);
+  React.useEffect(() => {
+    setUsers(["maor"]);
+    setCurrentBabySitterDisplay([
+      {
+        time: "14:00",
+        date: "23.2.2023",
+        rate: 4,
+        address: "חנקין 3, ראשון לציון",
+        location: "ישראל",
+        phoneNumber: "054-9542812",
+        description: "שלום, שמי מאור ואני מסתדר מעולה עם ילדים",
+      },
+      {
+        time: "16:00",
+        date: "5.5.2023",
+        rate: 3,
+        address: "חנקין 3, ראשון לציון",
+        location: "ישראל",
+        phoneNumber: "054-9542812",
+        description: "היי אני חן ואני מבשלת מעולה",
+      },
+    ]);
+  }, []);
   const [visibleLoading, setVisibleLoading] = React.useState(false);
   //
   // React.useEffect(() => {
@@ -108,13 +108,7 @@ function HomePageParent({ navigation }) {
         >
           {users.length > 0 ? (
             currentBabySitterDisplay.map((user, index) => (
-              <TouchableRipple
-                style={styles.rowButton}
-                key={index}
-                onPress={() =>
-                  navigation.navigate("BabysitterDetails", { babysitter: user })
-                }
-              >
+              <TouchableRipple style={styles.rowButton} key={index}>
                 <View>
                   <View
                     style={[styles.tableRow, { height: 90, width: "100%" }]}
