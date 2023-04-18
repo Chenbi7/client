@@ -35,17 +35,6 @@ function BabysitterDetails() {
       );
     }
   };
-
-  React.useEffect(() => {
-    // setUsers(["maor"]);
-    setReviews([
-      { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
-      { name: "דנה", rating: 5, description: "ממליצה בחום" },
-      { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
-      { name: "דנה", rating: 5, description: "ממליצה בחום" },
-    ]);
-  }, []);
-
   paintStars();
 
   return (
@@ -66,58 +55,6 @@ function BabysitterDetails() {
           <></>
         )}
       </View>
-
-      <View style={styles.reviewRow}>
-        {!isOnAddReview ? (
-          <View>
-            <Pressable
-              style={styles.addReview}
-              onPress={() => setIsOnAddReview(true)}
-            >
-              <Text style={styles.addReviewText}>הוספת ביקורת</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <></>
-        )}
-        <Text style={styles.reviewsTitle}>
-          {isOnAddReview ? "הוספת ביקורת" : "ביקורות:"}
-        </Text>
-      </View>
-      {!isOnAddReview ? (
-        <ScrollView persistentScrollbar={true} style={styles.reviewsContainer}>
-          {reviews.map((review) => {
-            return <ReviewBox review={review} />;
-          })}
-          <View style={styles.buttonContainer}>
-            <Button
-              color={theme.colors.buttonText}
-              mode={"outlined"}
-              style={[
-                styles.generalButton,
-                globalStyles.buttonBackground,
-                styles.forgotPasswordButton,
-              ]}
-              onPress={() => {
-                Linking.openURL(
-                  "http://api.whatsapp.com/send?phone=+972" +
-                    babysitter.phoneNumber.split("-")[0] +
-                    babysitter.phoneNumber.split("-")[1]
-                );
-              }}
-            >
-              <Text style={{ color: "purple" }}> ליצירת קשר</Text>
-            </Button>
-          </View>
-        </ScrollView>
-      ) : (
-        <View style={styles.reviewsContainer}>
-          <AddReview
-            username="נועה"
-            setIsOnAddReview={() => setIsOnAddReview(false)}
-          ></AddReview>
-        </View>
-      )}
     </View>
   );
 }

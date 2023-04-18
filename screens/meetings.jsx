@@ -15,7 +15,6 @@ import {
   ImageBackground,
 } from "react-native";
 import { useTheme } from "react-native-paper";
-import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../styles";
 
 import Toast from "react-native-toast-message";
@@ -28,25 +27,29 @@ function HomePageParent({ navigation }) {
   const [currentBabySitterDisplay, setCurrentBabySitterDisplay] =
     React.useState([{}]);
 
-  React.useEffect(() => {
-    setUsers(["maor"]);
-    setCurrentBabySitterDisplay([
-      {
-        name: "מאור בבר",
-        rate: 4,
-        location: "ישראל",
-        phoneNumber: "054-9542812",
-        description: "היה ממש נחמד ותיקשר יפה עם הילדים",
-      },
-      {
-        name: "חן ביטון",
-        rate: 3,
-        location: "ישראל",
-        phoneNumber: "054-9542812",
-        description: "שמחתי להשאיר את הילדים עם אדם כה אחראי",
-      },
-    ]);
-  }, []);
+    React.useEffect(() => {
+        setUsers(["maor"]);
+        setCurrentBabySitterDisplay([
+          {
+            time: "14:00",
+            date: "23.2.2023",
+            rate: 4,
+            address: "חנקין 3, ראשון לציון",
+            location: "ישראל",
+            phoneNumber: "054-9542812",
+            description: "שלום, שמי מאור ואני מסתדר מעולה עם ילדים",
+          },
+          {
+            time: "16:00",
+            date: "5.5.2023",
+            rate: 3,
+            address: "חנקין 3, ראשון לציון",
+            location: "ישראל",
+            phoneNumber: "054-9542812",
+            description: "היי אני חן ואני מבשלת מעולה",
+          },
+        ]);
+      }, []);
   const [visibleLoading, setVisibleLoading] = React.useState(false);
   //
   // React.useEffect(() => {
@@ -85,13 +88,13 @@ function HomePageParent({ navigation }) {
             <Paragraph
               style={[globalStyles.fontFamilyApp, styles.descriptionColumn]}
             >
-              ביקורת
+              כתובת
             </Paragraph>
             <Paragraph style={[globalStyles.fontFamilyApp, styles.titleColumn]}>
-              שם
+              תאריך
             </Paragraph>
             <Paragraph style={styles.iconColumn}>
-              <Paragraph>דירוג</Paragraph>
+              <Paragraph>שעה</Paragraph>
             </Paragraph>
           </View>
         </View>
@@ -109,7 +112,7 @@ function HomePageParent({ navigation }) {
                 style={styles.rowButton}
                 key={index}
                 onPress={() =>
-                  navigation.navigate("ReviewScreen", { babysitter: user })
+                  navigation.navigate("BabysitterDetails", { babysitter: user })
                 }
               >
                 <View>
@@ -118,16 +121,16 @@ function HomePageParent({ navigation }) {
                   >
                     <View style={styles.descriptionColumn}>
                       <Paragraph style={globalStyles.rtlDirection}>
-                        {user?.description}
+                        {user?.address}
                       </Paragraph>
                     </View>
                     <View style={styles.titleColumn}>
                       <Paragraph style={[globalStyles.centerText]}>
-                        {user.name}
+                        {user?.date}
                       </Paragraph>
                     </View>
                     <View style={styles.iconColumn}>
-                      <Text>{user.rate}</Text>
+                      <Text>{user?.time}</Text>
                     </View>
                   </View>
                   <View

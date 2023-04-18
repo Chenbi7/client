@@ -34,8 +34,9 @@ function HomePageBabysitter({ navigation }) {
     setUsers(["maor"]);
     setCurrentBabySitterDisplay([
       {
-        name: "הורה 1",
-        age: 26,
+        name: "פגישה 1",
+        time: "14:00",
+        date: "23.2.2023",
         rate: 4,
         address: "חנקין 3, ראשון לציון",
         location: "ישראל",
@@ -43,8 +44,9 @@ function HomePageBabysitter({ navigation }) {
         description: "שלום, שמי מאור ואני מסתדר מעולה עם ילדים",
       },
       {
-        name: "הורה 2",
-        age: 23,
+        name: "פגישה 2",
+        time: "16:00",
+        date: "5.5.2023",
         rate: 3,
         address: "חנקין 3, ראשון לציון",
         location: "ישראל",
@@ -98,7 +100,10 @@ function HomePageBabysitter({ navigation }) {
           >
             <Text style={styles.secondaryButtonText}>ביקורות</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.secondaryButton}>
+          <TouchableOpacity style={styles.secondaryButton}
+          onPress={() => {
+            navigation.navigate("MeetingsPage");
+          }}>
             <Text style={styles.secondaryButtonText}>פגישות שבוצעו</Text>
           </TouchableOpacity>
         </View>
