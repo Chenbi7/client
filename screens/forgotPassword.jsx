@@ -37,8 +37,28 @@ function ForgotPassword({navigation}) {
     // }, [navigation]);
 
     function sendCode() {
-        navigation.navigate('VerifyMail', {type: 'forgotPassword', email: email})
-
+        setVisibleLoading(true);
+        HttpService.doesUserExist({email: email}).then((data) => {
+            if (!data.isUserRegistered) {
+                setVisibleLoading(false);
+                setError({hasError: true, errorMessage: 'המייל שהזנת לא קיים במערכת'})
+            } else {
+                HttpService.sendCode({email: email}).then(user => {
+                    if (user.data.errorMessage) {
+                        setError({hasError: true, errorMessage: user.data.errorMessage});
+                    } else {
+                        navigation.navigate('VerifyMail', {type: 'forgotPassword', email: email})
+                    }
+                    setVisibleLoading(false);
+                }).catch(() => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'שליחת קוד נכשלה'
+                        }
+                    );
+                }).finally( () => setVisibleLoading(false))
+            }
+        })
     }
 
 

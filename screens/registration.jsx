@@ -314,7 +314,7 @@ function RegistrationScreen({ navigation }) {
           user: {
             type: userType,
             name: username,
-            mail: email,
+            email: email,
             location: {
               latitude: 32.32323,
               longitude: 32.65655,

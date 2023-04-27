@@ -39,12 +39,13 @@ function VerifyMail({ navigation }) {
 
   function checkCodeOfVerifyMail() {
     setVisibleLoading(true);
-    HttpService.checkCodeOfVerifyMail({ mail: route.params.email, code })
+    HttpService.checkCodeOfVerifyMail({ email: route.params.email, code })
       .then((res) => {
         setVisibleLoading(false);
         if (route.params.type === "createUser") {
           createUser();
         } else {
+          createUser();
           navigation.navigate("NewPassword", { email: route.params.email });
         }
       })
@@ -110,7 +111,7 @@ function VerifyMail({ navigation }) {
                     { color: theme.colors.generalText },
                   ]}
                 >
-                  ברגעים אלה נשלח אליך קוד אימות למייל {route.params.user.type}
+                  ברגעים אלה נשלח אליך קוד אימות למייל {route.params.email}
                 </Text>
                 <Text
                   style={[

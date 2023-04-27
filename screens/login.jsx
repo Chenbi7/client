@@ -183,11 +183,10 @@ function LoginScreen({ navigation }) {
 
   function login() {
     if (isValidData()) {
-      navigation.navigate("HomePageBabysitter");
       setVisibleLoading(true);
       HttpService.login({ mail: email, password: password })
         .then((user) => {
-          navigation.navigate("HomePageBabysitter");
+          navigation.navigate("HomePageParent");
         })
         .catch((err) => {
           Toast.show({

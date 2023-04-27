@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
+import LocalStorageService from "../services/local-storage-service";
 
 // ngRock path
-const babySitterUrl = 'http://localhost:3000';
+const babySitterUrl = 'https://410c-89-139-134-252.ngrok-free.app';
 
 class HttpService {
   static uriMenuImage = {uri: "https://filebucketmatanya7491.s3.us-west-2.amazonaws.com/menu.png"};
@@ -11,14 +12,12 @@ class HttpService {
   static SOLDIER = "soldier";
   static LOADING = "loading";
 
-  static async getAllEvents() {
-    return await axios.get(babySitterUrl + "/getAllEvents");
+  static async getAllAvailableBabysitters() {
+    return await axios.get(babySitterUrl + "/allAvailableBabysitters", 
+    await this.getHeader());
   }
 
   static async sendCode(user) {
-    return {
-
-    };
     return await axios.post(babySitterUrl + "/sendCodeToMail", user);
   }
 
@@ -28,32 +27,26 @@ class HttpService {
         await this.getHeader());
   }
 
-  static async login(user3) : any {
+  static async login(user) : any {
     // does not all fields in user
-    const user = {
-      firstName: "sdvc",
-      lastName: "sdc",
-      parent: false,
-      phone: '0545445444'
-    }
+   
     let data;
     data = await axios
       .post(babySitterUrl + "/login", user)
       .then((res) => {
-        // return res.data;
-        return user;
+        return res.data;
       })
       .catch(() => {
-        return user;
-        // throw new Error("בעיית תקשורת עם השרת");
+        throw new Error("בעיית תקשורת עם השרת");
       });
 
     if (data) {
-      const user = JSON.parse(JSON.stringify(data)).user
+      const user = JSON.parse(JSON.stringify(data)).user;
+      LocalStorageService.setUserStatusAsLoggedIn().then();
+        LocalStorageService.storeUser(data).then();
       return user;
     } else {
-      return user;
-      // throw new Error("מייל או סיסמה אינם נכונים");
+      throw new Error("מייל או סיסמה אינם נכונים");
     }
   }
 
@@ -86,8 +79,8 @@ class HttpService {
       Authorization: "Bearer ",
     };
     let currUser = {};
-    // await LocalStorageService.getUser().then((user) => (currUser = user));
-    // headers.Authorization += currUser.token;
+    await LocalStorageService.getUser().then((user) => (currUser = user));
+    headers.Authorization += currUser.token;
     return {
       headers: headers,
     };
@@ -99,21 +92,20 @@ class HttpService {
       Authorization: "Bearer ",
     };
     let token = {};
-    // await LocalStorageService.getNonUserToken().then((t) => (token = t));
-    // headers.Authorization += token;
+    await LocalStorageService.getNonUserToken().then((t) => (token = t));
+    headers.Authorization += token;
     return {
       headers: headers,
     };
   }
 
   static async doesUserExist(email){
-    return  {};
-    // let res = await axios.post(
-    //     babySitterUrl + "/doesUserExist",
-    //     email
-    // );
-    //
-    // return res.data
+    let res = await axios.post(
+        babySitterUrl + "/doesUserExist",
+        email
+    );
+    
+    return res.data
   }
 
   static async checkCodeOfVerifyMail(user) {
@@ -121,20 +113,18 @@ class HttpService {
       await axios
           .post(babySitterUrl + "/checkCode", user)
           .then(async (res) => {
-              // data = res.data;
-              data = {};
+            await LocalStorageService.storeNonUserToken(res.data.token);
+            data = res.data;
           })
           .catch(() => {
-            data = {};
-
-            // throw new Error("בעיית תקשורת עם השרת");
+            throw new Error("בעיית תקשורת עם השרת");
           });
 
-      // if (data.errorMessage) {
-      //     throw new Error(data.errorMessage);
-      // } else {
-      //     return data;
-      // }
+      if (data.errorMessage) {
+          throw new Error(data.errorMessage);
+      } else {
+          return data;
+      }
     return  {};
   }
 }

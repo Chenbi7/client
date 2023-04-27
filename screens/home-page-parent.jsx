@@ -4,7 +4,7 @@ import {View, StyleSheet, Text, ScrollView, Linking, ImageBackground} from "reac
 import {useTheme} from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../styles";
-
+import HttpService from "../services/http-service";
 import Toast from 'react-native-toast-message';
 import Loading from "../component/modal-loading";
 
@@ -18,18 +18,25 @@ function HomePageParent({ navigation }) {
   
     React.useEffect(() => {
       setUsers(["maor"]);
-      setCurrentBabySitterDisplay([
-          { name: "מאור בבר", age: 26, rate:4, address: "חנקין 3, ראשון לציון", location: "ישראל", phoneNumber: "054-9542812", description:"שלום, שמי מאור ואני מסתדר מעולה עם ילדים" },
-          { name: "חן ביטון", age: 23, rate:3, address: "חנקין 3, ראשון לציון", location: "ישראל", phoneNumber: "054-9542812", description:"היי אני חן ואני מבשלת מעולה" },
-      ]);
     }, []);
     const [visibleLoading, setVisibleLoading] = React.useState(false);
-    //
-    // React.useEffect(() => {
-    //     getAllBabySitter()
-    // }, []);
-  
-    function getAllBabySitter() {}
+ 
+    React.useEffect(() => {
+        return navigation.addListener('focus', () => {
+            HttpService.getAllAvailableBabysitters().then(response => {
+            setCurrentBabySitterDisplay(response.data);
+            Toast.show({
+                type: "error",
+                message: response.data,
+              });
+        }).catch(() => {
+            Toast.show({
+                    type: 'error',
+                    message: 'הייתה בעיית תקשורת'
+                })
+        })
+        });
+    }, [navigation]);
   
 
     return (
@@ -67,7 +74,7 @@ function HomePageParent({ navigation }) {
                             indicatorStyle={"black"}
                             scrollEnabled={true}
                             vartical={true}>
-                    {users.length > 0 ? currentBabySitterDisplay.map((user, index) => (
+                    {currentBabySitterDisplay.length > 0 ? currentBabySitterDisplay.map((user, index) => (
                         <TouchableRipple
                             style={styles.rowButton}
                             key={index}
@@ -81,7 +88,7 @@ function HomePageParent({ navigation }) {
                                     </View>
                                     <View style={styles.titleColumn}>
                                         <Paragraph
-                                            style={[globalStyles.centerText]}>{user.name}</Paragraph>
+                                            style={[globalStyles.centerText]}>{user?.name}</Paragraph>
                                     </View>
                                     <View style={styles.iconColumn}>
                                         <Text>{index + 1}</Text>

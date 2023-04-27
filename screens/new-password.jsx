@@ -13,6 +13,9 @@ import globalStyles from "../styles";
 import {Keyboard} from 'react-native'
 import Toast from 'react-native-toast-message';
 import Loading from "../component/modal-loading";
+import HttpService from "../services/http-service";
+import {useRoute} from "@react-navigation/native";
+
 
 function NewPasswordScreen({navigation}) {
     const theme = useTheme();
@@ -23,16 +26,31 @@ function NewPasswordScreen({navigation}) {
     const [paragraphDisable, setParagraphDisable] = React.useState(false);
     const [onBlurPass, setOnBlurPass] = React.useState(false);
     const [visibleLoading, setVisibleLoading] = React.useState(false);
+    const route = useRoute();
 
     function updatePassword() {
         if (password.length >= 8 && password === passwordValidation) {
-            navigation.navigate('HomePage')
-
-            Toast.show({
+            setVisibleLoading(true);
+            HttpService.updateUserPassword({
+                email: route.params.email,
+                password: password,
+                updatePassword: true
+            }).then(() => {
+                Toast.show({
                     type: 'success',
-                    text1: 'סיסמה עומדת בתנאים'
-                }
-            );
+                    text1: 'העדכון בוצע בהצלחה'
+                    }
+                );
+                navigation.navigate('Login')
+            }).catch((err) => {
+                Toast.show({
+                    type: 'error',
+                    message: err
+                    }
+                );
+            }).finally(() => {
+                setVisibleLoading(false);
+            })
         } else {
             Toast.show({
                 type: 'error',

@@ -16,6 +16,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Button from "react-native-paper/src/components/Button";
 import BabysitterDetails from "./screens/babysitterDetails";
+import Toast from "react-native-toast-message";
+import {BaseToast, ErrorToast} from "react-native-toast-message";
 
 const Stack = createStackNavigator();
 //
@@ -49,6 +51,10 @@ export default function App() {
             name="HomePageBabysitter"
             component={HomePageBabysitter}
           />
+          <Stack.Screen
+          name="HomePageParent"
+          component={HomePageParent}
+        />
           <Stack.Screen name="ReviewsPage" component={ReviewsPage} />
           <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
           <Stack.Screen name="MeetingsPage" component={MeetingsPage} />
@@ -60,6 +66,7 @@ export default function App() {
             component={BabysitterDetails}
           />
         </Stack.Navigator>
+      <Toast position="bottom" config={toastConfig} visibilityTime={2000}/>
       </NavigationContainer>
     </PaperProvider>
   );
@@ -87,4 +94,39 @@ const theme = {
     backgroundGreen: "#e5b7db",
     error: "#D6040A",
   },
+};
+
+const toastConfig = {
+  /*
+      Overwrite 'success' type,
+      by modifying the existing `BaseToast` component
+    */
+  success: (props) => (
+      <BaseToast
+          {...props}
+          style={{borderLeftColor: "green"}}
+          text1Style={{
+              fontSize: 15,
+              textAlign: "center",
+              fontWeight: "400",
+              fontFamily: 'Inter-Heebo'
+          }}
+      />
+  ),
+  /*
+      Overwrite 'error' type,
+      by modifying the existing `ErrorToast` component
+    */
+  error: (props) => (
+      <ErrorToast
+          {...props}
+          style={{borderLeftColor: "red"}}
+          text1Style={{
+              fontSize: 15,
+              textAlign: "center",
+              fontWeight: "400",
+              fontFamily: 'Inter-Heebo'
+          }}
+      />
+  ),
 };
