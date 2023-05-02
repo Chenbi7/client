@@ -6,10 +6,8 @@ import LocalStorageService from "../services/local-storage-service";
 const babySitterUrl = 'https://410c-89-139-134-252.ngrok-free.app';
 
 class HttpService {
-  static uriMenuImage = {uri: "https://filebucketmatanya7491.s3.us-west-2.amazonaws.com/menu.png"};
   static LOGGED_IN = "loggedIn";
   static LOGGED_OUT = "loggedOut";
-  static SOLDIER = "soldier";
   static LOADING = "loading";
 
   static async getAllAvailableBabysitters() {
@@ -27,7 +25,7 @@ class HttpService {
         await this.getHeader());
   }
 
-  static async login(user) : any {
+  static async login(user) {
     // does not all fields in user
    
     let data;
@@ -49,6 +47,17 @@ class HttpService {
       throw new Error("מייל או סיסמה אינם נכונים");
     }
   }
+
+  static async logInWithToken() {
+    return await axios
+      .post(babySitterUrl + "/loginWithToken", {}, await this.getHeader())
+      .then((res) => {
+        LocalStorageService.storeUser(res.data).then();
+        LocalStorageService.setUserStatusAsLoggedIn().then();
+        return res.data;
+      });
+  }
+
 
   static async registration(user) {
     return await axios

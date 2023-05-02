@@ -18,6 +18,9 @@ import Button from "react-native-paper/src/components/Button";
 import BabysitterDetails from "./screens/babysitterDetails";
 import Toast from "react-native-toast-message";
 import {BaseToast, ErrorToast} from "react-native-toast-message";
+import DynamicNavigation from "./navigator/dynamic-navigation";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
 
 const Stack = createStackNavigator();
 //
@@ -41,9 +44,11 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <DynamicNavigation></DynamicNavigation>
+        {/* <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Registration" component={RegistrationScreen} />
           <Stack.Screen name="HomePage" component={HomePageParent} />
@@ -65,10 +70,11 @@ export default function App() {
             name="BabysitterDetails"
             component={BabysitterDetails}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       <Toast position="bottom" config={toastConfig} visibilityTime={2000}/>
       </NavigationContainer>
     </PaperProvider>
+    </Provider>
   );
 }
 

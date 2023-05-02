@@ -45,7 +45,7 @@ function NewPasswordScreen({navigation}) {
             }).catch((err) => {
                 Toast.show({
                     type: 'error',
-                    message: err
+                    text1: err.message
                     }
                 );
             }).finally(() => {

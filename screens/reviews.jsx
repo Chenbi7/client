@@ -21,7 +21,7 @@ import globalStyles from "../styles";
 import Toast from "react-native-toast-message";
 import Loading from "../component/modal-loading";
 
-function HomePageParent({ navigation }) {
+function Reviews({ navigation }) {
   const theme = useTheme();
   const [searchText, setSearchText] = React.useState("");
   const [users, setUsers] = React.useState([]);
@@ -158,7 +158,7 @@ function HomePageParent({ navigation }) {
   );
 }
 
-export default HomePageParent;
+export default Reviews;
 
 const styles = StyleSheet.create({
   actionsTitle: {

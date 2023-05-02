@@ -98,7 +98,7 @@ function HomePageParent({ navigation }) {
                             </View>
                         </TouchableRipple>
                     )) : <Paragraph style={[globalStyles.centerText, globalStyles.rtlDirection]}
-                    >...לא קיימים עדיין אירועים</Paragraph>
+                    >...לא קיימים עדיין בייביז</Paragraph>
                     }
 
                 </ScrollView>

@@ -16,6 +16,8 @@ import { Keyboard } from "react-native";
 import Loading from "../component/modal-loading";
 import HttpService from "../services/http-service";
 import Toast from "react-native-toast-message";
+import {login} from "../store/reducer";
+import {useDispatch} from "react-redux";
 
 function LoginScreen({ navigation }) {
   const theme = useTheme();
@@ -25,6 +27,7 @@ function LoginScreen({ navigation }) {
   const [visibleLoading, setVisibleLoading] = React.useState(false);
   const [isValidMail, setIsValidMail] = React.useState(true);
   const [isValidPassword, setIsValidPassword] = React.useState(true);
+  const dispatch = useDispatch();
 
   // React.useEffect(() => {
   //     return navigation.addListener("focus", () => {
@@ -42,8 +45,9 @@ function LoginScreen({ navigation }) {
           <TouchableWithoutFeedback
             onPress={() => Keyboard.dismiss()}
             accessible={false}
-          >
+            >
             <View>
+            <Text style={{marginTop: 100, marginLeft: 80, fontSize: 50}}>Babysitting</Text>
               <View style={styles.mainContainer}>
                 <TextInput
                   outlineColor={"gray"}
@@ -149,7 +153,7 @@ function LoginScreen({ navigation }) {
                     styles.generalButton,
                     styles.enterButton,
                   ]}
-                  onPress={login}
+                  onPress={loginToProgram}
                 >
                   <Text>כניסה</Text>
                 </Button>
@@ -181,12 +185,12 @@ function LoginScreen({ navigation }) {
     </View>
   );
 
-  function login() {
+  function loginToProgram() {
     if (isValidData()) {
       setVisibleLoading(true);
       HttpService.login({ mail: email, password: password })
         .then((user) => {
-          navigation.navigate("HomePageParent");
+          dispatch(login(user.name));
         })
         .catch((err) => {
           Toast.show({
@@ -224,7 +228,7 @@ function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginTop: 210,
+    marginTop: 110,
   },
   container: {
     marginLeft: 20,
