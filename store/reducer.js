@@ -6,7 +6,8 @@ const messageSlice = createSlice({
     initialState: {
         user: {
             userStatus: HttpService.LOADING,
-            username: ''
+            username: '',
+            isBabysitter: null
         }
     },
     reducers: {
@@ -14,7 +15,8 @@ const messageSlice = createSlice({
             state.user.userStatus = HttpService.LOGGED_OUT
         },
         login(state, parameter) {
-            state.user.username = parameter.payload;
+            state.user.username = parameter.payload.name;
+            state.user.isBabysitter = parameter.payload.isBabysitter;
             state.user.userStatus = HttpService.LOGGED_IN;
         },
         defaultStat(state) {

@@ -190,7 +190,7 @@ function LoginScreen({ navigation }) {
       setVisibleLoading(true);
       HttpService.login({ mail: email, password: password })
         .then((user) => {
-          dispatch(login(user.name));
+          dispatch(login(user));
         })
         .catch((err) => {
           Toast.show({

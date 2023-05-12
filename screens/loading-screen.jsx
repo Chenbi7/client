@@ -13,7 +13,7 @@ const dispatch = useDispatch();
         LocalStorageService.getUserStatus().then((userStatus) => {
            if (userStatus === HttpService.LOGGED_IN) {
                 HttpService.logInWithToken().then((res) => {
-                        dispatch(login(res.user.name))
+                        dispatch(login(res.user))
                     }
                 ).catch(()=>{
                     dispatch(logout())})

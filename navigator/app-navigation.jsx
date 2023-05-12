@@ -9,6 +9,7 @@ import ReviewScreen from "../screens/reviewScreen";
 import MeetingsPage from "../screens/meetings";
 import BabysitterDetails from "../screens/babysitterDetails";
 import CustomDrawerContent from "../component/custom-drawer-content";
+import NavigationScreen from "../screens/vavigation-screen";
 
 const AppNavigator = () => {
 
@@ -21,6 +22,10 @@ const AppNavigator = () => {
             screenOptions={({navigation}) => (getScreenOptions(navigation))}
             initialRouteName="selectEvent"
             backBehavior={'history'}>
+            <Drawer.Screen
+                options={{title: 'דף טעינה', headerShown: false}}
+                name="NavigationScreen"
+            component={NavigationScreen}/>
             {Platform.OS==='ios' ?
             <Drawer.Screen
                 options={{title: 'דף הבית', headerLeft: () => {}}}
