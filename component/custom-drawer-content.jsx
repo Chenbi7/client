@@ -4,6 +4,7 @@ import {Button, List, Title} from 'react-native-paper';
 import LocalStorageService from '../services/local-storage-service';
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../store/reducer";
+import DeleteUserComponent from "./modal-delete-user";
 
 
 const CustomDrawerContent = ({navigation}) => {
@@ -58,7 +59,7 @@ const CustomDrawerContent = ({navigation}) => {
                     <Text>התנתק</Text>
                 </Button>
                 <View style={styles.generalButton}>
-                    {/* <DeleteUserComponent navigation={navigation}/> */}
+                     <DeleteUserComponent navigation={navigation}/>
                 </View>
             </View>
             <View style={styles.permissionButton}>

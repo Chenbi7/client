@@ -80,12 +80,12 @@ function VerifyMail({ navigation }) {
     HttpService.registration(route.params.user)
       .then(() => {
         route.params.user.type === "הורה"
-          ? navigation.navigate("HomePage")
+          ? navigation.navigate("HomePageParent")
           : navigation.navigate("HomePageBabysitter");
       })
       .catch((err) => {
         route.params.user.type === "הורה"
-          ? navigation.navigate("HomePage")
+          ? navigation.navigate("HomePageParent")
           : navigation.navigate("HomePageBabysitter");
         Toast.show({
           type: "error",
