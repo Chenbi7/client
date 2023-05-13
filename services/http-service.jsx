@@ -3,7 +3,7 @@ import axios from "axios";
 import LocalStorageService from "../services/local-storage-service";
 
 // ngRock path
-const babySitterUrl = 'https://6837-2a02-6680-1109-12c4-13e-785c-373c-3b7.ngrok-free.app';
+const babySitterUrl = "https://fd6e-176-231-23-29.ngrok-free.app";
 
 class HttpService {
   static LOGGED_IN = "loggedIn";
@@ -11,8 +11,19 @@ class HttpService {
   static LOADING = "loading";
 
   static async getAllAvailableBabysitters() {
-    return await axios.get(babySitterUrl + "/allAvailableBabysitters", 
-    await this.getHeader());
+    return await axios.get(
+      babySitterUrl + "/allAvailableBabysitters",
+      await this.getHeader()
+    );
+  }
+
+  static async getAllMeetingsByParent(parentId) {
+    const headers = await this.getHeader();
+    return await axios.post(
+      babySitterUrl + "/meetingsByParent",
+      { parentId },
+      { headers }
+    );
   }
 
   static async sendCode(user) {
@@ -21,13 +32,15 @@ class HttpService {
 
   static async getAllUnAuthorizedUsers() {
     console.log(babySitterUrl + "/unAuthorizedUsers");
-    return await axios.get(babySitterUrl + "/unAuthorizedUsers",
-        await this.getHeader());
+    return await axios.get(
+      babySitterUrl + "/unAuthorizedUsers",
+      await this.getHeader()
+    );
   }
 
   static async login(user) {
     // does not all fields in user
-   
+
     let data;
     data = await axios
       .post(babySitterUrl + "/login", user)
@@ -41,7 +54,7 @@ class HttpService {
     if (data) {
       const user = JSON.parse(JSON.stringify(data)).user;
       LocalStorageService.setUserStatusAsLoggedIn().then();
-        LocalStorageService.storeUser(data).then();
+      LocalStorageService.storeUser(data).then();
       return user;
     } else {
       throw new Error("מייל או סיסמה אינם נכונים");
@@ -58,19 +71,21 @@ class HttpService {
       });
   }
 
-
   static async registration(user) {
     return await axios
-      .post(babySitterUrl + "/newUser", user, await this.getHeaderForLoggedOutUser())
-      .then((user) => {
-      });
+      .post(
+        babySitterUrl + "/newUser",
+        user,
+        await this.getHeaderForLoggedOutUser()
+      )
+      .then((user) => {});
   }
 
   static async updateUserPassword(user) {
     return await axios.put(
-        babySitterUrl + "/updateUser",
-        user,
-        await this.getHeaderForLoggedOutUser()
+      babySitterUrl + "/updateUser",
+      user,
+      await this.getHeaderForLoggedOutUser()
     );
   }
 
@@ -108,33 +123,30 @@ class HttpService {
     };
   }
 
-  static async doesUserExist(email){
-    let res = await axios.post(
-        babySitterUrl + "/doesUserExist",
-        email
-    );
-    
-    return res.data
+  static async doesUserExist(email) {
+    let res = await axios.post(babySitterUrl + "/doesUserExist", email);
+
+    return res.data;
   }
 
   static async checkCodeOfVerifyMail(user) {
-      let data = null;
-      await axios
-          .post(babySitterUrl + "/checkCode", user)
-          .then(async (res) => {
-            await LocalStorageService.storeNonUserToken(res.data.token);
-            data = res.data;
-          })
-          .catch(() => {
-            throw new Error("בעיית תקשורת עם השרת");
-          });
+    let data = null;
+    await axios
+      .post(babySitterUrl + "/checkCode", user)
+      .then(async (res) => {
+        await LocalStorageService.storeNonUserToken(res.data.token);
+        data = res.data;
+      })
+      .catch(() => {
+        throw new Error("בעיית תקשורת עם השרת");
+      });
 
-      if (data.errorMessage) {
-          throw new Error(data.errorMessage);
-      } else {
-          return data;
-      }
-    return  {};
+    if (data.errorMessage) {
+      throw new Error(data.errorMessage);
+    } else {
+      return data;
+    }
+    return {};
   }
 }
 

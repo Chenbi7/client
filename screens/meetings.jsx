@@ -16,40 +16,37 @@ import {
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import globalStyles from "../styles";
-
+import HttpService from "../services/http-service";
 import Toast from "react-native-toast-message";
 import Loading from "../component/modal-loading";
+import { useSelector } from "react-redux";
 
 function HomePageParent({ navigation }) {
   const theme = useTheme();
   const [searchText, setSearchText] = React.useState("");
-  const [users, setUsers] = React.useState([]);
-  const [currentBabySitterDisplay, setCurrentBabySitterDisplay] =
+  const { user } = useSelector((state) => state.user);
+  const [currentMeetings, setCurrentMeetings] =
     React.useState([{}]);
 
   React.useEffect(() => {
-    setUsers(["maor"]);
-    setCurrentBabySitterDisplay([
-      {
-        time: "14:00",
-        date: "23.2.2023",
-        rate: 4,
-        address: "חנקין 3, ראשון לציון",
-        location: "ישראל",
-        phoneNumber: "054-9542812",
-        description: "שלום, שמי מאור ואני מסתדר מעולה עם ילדים",
-      },
-      {
-        time: "16:00",
-        date: "5.5.2023",
-        rate: 3,
-        address: "חנקין 3, ראשון לציון",
-        location: "ישראל",
-        phoneNumber: "054-9542812",
-        description: "היי אני חן ואני מבשלת מעולה",
-      },
-    ]);
-  }, []);
+    return navigation.addListener("focus", () => {
+      HttpService.getAllMeetingsByParent(user.userId)
+        .then((response) => {
+          setCurrentMeetings(response.data);
+          console.log(response.data)
+          Toast.show({
+            type: "error",
+            message: response.data,
+          });
+        })
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            message: "הייתה בעיית תקשורת",
+          });
+        });
+    });
+  }, [navigation]);
   const [visibleLoading, setVisibleLoading] = React.useState(false);
   //
   // React.useEffect(() => {
@@ -65,14 +62,14 @@ function HomePageParent({ navigation }) {
           placeholder="חיפוש"
           value={searchText}
           onChangeText={(text) => {
-            if (users) {
+            if (currentMeetings) {
               setSearchText(text);
-              setCurrentBabySitterDisplay(
-                users
-                // users.filter((user: object) => user.name.includes(text))
+              setCurrentMeetings(
+                currentMeetings
+                // currentMeetings.filter((user: object) => user.name.includes(text))
               );
               if (text.length === 0) {
-                setCurrentBabySitterDisplay(users);
+                setCurrentMeetings(currentMeetings);
               }
             }
           }}
@@ -106,8 +103,8 @@ function HomePageParent({ navigation }) {
           scrollEnabled={true}
           vartical={true}
         >
-          {users.length > 0 ? (
-            currentBabySitterDisplay.map((user, index) => (
+          {currentMeetings.length > 0 ? (
+            currentMeetings.map((meeting, index) => (
               <TouchableRipple style={styles.rowButton} key={index}>
                 <View>
                   <View
@@ -115,16 +112,16 @@ function HomePageParent({ navigation }) {
                   >
                     <View style={styles.descriptionColumn}>
                       <Paragraph style={globalStyles.rtlDirection}>
-                        {user?.address}
+                        {meeting.address?.latitude}
                       </Paragraph>
                     </View>
                     <View style={styles.titleColumn}>
                       <Paragraph style={[globalStyles.centerText]}>
-                        {user?.date}
+                        {new Date(meeting?.time).toLocaleDateString()}
                       </Paragraph>
                     </View>
                     <View style={styles.iconColumn}>
-                      <Text>{user?.time}</Text>
+                      <Text>{new Date(meeting?.time).toLocaleTimeString()}</Text>
                     </View>
                   </View>
                   <View
@@ -279,7 +276,7 @@ const styles = StyleSheet.create({
 //             </DataTable.Title>
 //           </DataTable.Header>
 //           <ScrollView>
-//             {users.length > 0 ? (
+//             {currentMeetings.length > 0 ? (
 //               currentUsersDisplay.map((user, index) => (
 //                 <DataTable.Row
 //                   key={index}

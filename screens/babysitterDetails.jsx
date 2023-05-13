@@ -56,8 +56,8 @@ function BabysitterDetails() {
         </Text>
         <View style={styles.stars}>{starsRating}</View>
         <View style={styles.detailsContainer}>
-          <Text style={styles.details}>{babysitter.address}</Text>
-          <Text style={styles.details}>{babysitter.phoneNumber}</Text>
+          <Text style={styles.details}>{babysitter.address.latitude}</Text>
+          <Text style={styles.details}>{babysitter.phone}</Text>
         </View>
 
         {!isOnAddReview ? (
@@ -101,8 +101,8 @@ function BabysitterDetails() {
               onPress={() => {
                 Linking.openURL(
                   "http://api.whatsapp.com/send?phone=+972" +
-                    babysitter.phoneNumber.split("-")[0] +
-                    babysitter.phoneNumber.split("-")[1]
+                    babysitter.phone.split("-")[0] +
+                    babysitter.phone.split("-")[1]
                 );
               }}
             >
