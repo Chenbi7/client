@@ -8,17 +8,39 @@ import ReviewBox from "../component/reviewBox";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import AddReview from "../component/addReview";
 import Button from "react-native-paper/src/components/Button";
+import HttpService from "../services/http-service";
 import globalStyles from "../styles";
+import { useSelector } from "react-redux";
 
-function BabysitterDetails() {
+function BabysitterDetails({ navigation }) {
   const route = useRoute();
   const theme = useTheme();
   var starsRating = [];
 
   const babysitter = route.params.babysitter;
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState(0);
+  const { user } = useSelector((state) => state.user);
   const [reviews, setReviews] = useState([]);
   const [isOnAddReview, setIsOnAddReview] = useState(false);
+
+  React.useEffect(() => {
+    return navigation.addListener("focus", () => {
+      HttpService.getFeedbackByBaybysitter(babysitter._id)
+        .then((response) => {
+          setReviews(response.data);
+          Toast.show({
+            type: "error",
+            message: response.data,
+          });
+        })
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            message: "הייתה בעיית תקשורת",
+          });
+        });
+    });
+  }, [navigation]);
 
   const paintStars = () => {
     for (let i = 0; i < 5; i++) {
@@ -36,15 +58,15 @@ function BabysitterDetails() {
     }
   };
 
-  React.useEffect(() => {
-    // setUsers(["maor"]);
-    setReviews([
-      { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
-      { name: "דנה", rating: 5, description: "ממליצה בחום" },
-      { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
-      { name: "דנה", rating: 5, description: "ממליצה בחום" },
-    ]);
-  }, []);
+  // React.useEffect(() => {
+  //   // setUsers(["maor"]);
+  //   setReviews([
+  //     { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
+  //     { name: "דנה", rating: 5, description: "ממליצה בחום" },
+  //     { name: "רוני", rating: 4, description: "נפלא עם ילדים" },
+  //     { name: "דנה", rating: 5, description: "ממליצה בחום" },
+  //   ]);
+  // }, []);
 
   paintStars();
 
@@ -101,8 +123,8 @@ function BabysitterDetails() {
               onPress={() => {
                 Linking.openURL(
                   "http://api.whatsapp.com/send?phone=+972" +
-                    babysitter.phone.split("-")[0] +
-                    babysitter.phone.split("-")[1]
+                  babysitter.phone.split("-")[0] +
+                  babysitter.phone.split("-")[1]
                 );
               }}
             >

@@ -3,7 +3,7 @@ import axios from "axios";
 import LocalStorageService from "../services/local-storage-service";
 
 // ngRock path
-const babySitterUrl = "https://fd6e-176-231-23-29.ngrok-free.app";
+const babySitterUrl = "https://64a6-176-231-23-29.ngrok-free.app";
 
 class HttpService {
   static LOGGED_IN = "loggedIn";
@@ -22,6 +22,15 @@ class HttpService {
     return await axios.post(
       babySitterUrl + "/meetingsByParent",
       { parentId },
+      { headers }
+    );
+  }
+
+  static async getFeedbackByBaybysitter(babysitterId) {
+    const headers = await this.getHeader();
+    return await axios.post(
+      babySitterUrl + "/feedbacksByBabysitter",
+      { babysitterId },
       { headers }
     );
   }
@@ -78,7 +87,7 @@ class HttpService {
         user,
         await this.getHeaderForLoggedOutUser()
       )
-      .then((user) => {});
+      .then((user) => { });
   }
 
   static async updateUserPassword(user) {

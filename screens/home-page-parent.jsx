@@ -84,7 +84,7 @@ function HomePageParent({ navigation }) {
                                 <View style={[styles.tableRow, {height: 90, width: '100%'}]}>
 
                                     <View style={styles.descriptionColumn}>
-                                        <Paragraph style={globalStyles.rtlDirection}>{user?.phoneNumber}</Paragraph>
+                                        <Paragraph style={globalStyles.rtlDirection}>{user?.phone}</Paragraph>
                                     </View>
                                     <View style={styles.titleColumn}>
                                         <Paragraph
