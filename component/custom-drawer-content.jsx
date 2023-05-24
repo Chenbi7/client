@@ -45,18 +45,34 @@ const CustomDrawerContent = ({ navigation }) => {
           <Text>עדכון פרטים</Text>
         </Button>
       </View>
-      {!user.isBabysitter && <View style={styles.firstButtonsSection}>
-        <Button
-          // color={import {Button, List, Paragraph, Title} from 'react-native-paper';.colors.buttonText}
-          mode={"outlined"}
-          style={[styles.drawButton]}
-          onPress={() =>
-            navigation.navigate("MeetingsPage", { isUpdateScreen: true })
-          }
-        >
-          <Text>פגישות שבוצעו</Text>
-        </Button>
-      </View>}
+      {!user.isBabysitter && (
+        <View style={styles.firstButtonsSection}>
+          <Button
+            // color={import {Button, List, Paragraph, Title} from 'react-native-paper';.colors.buttonText}
+            mode={"outlined"}
+            style={[styles.drawButton]}
+            onPress={() =>
+              navigation.navigate("MeetingsPage", { isUpdateScreen: true })
+            }
+          >
+            <Text>פגישות שבוצעו</Text>
+          </Button>
+        </View>
+      )}
+      {!user.isBabysitter && (
+        <View style={styles.firstButtonsSection}>
+          <Button
+            // color={import {Button, List, Paragraph, Title} from 'react-native-paper';.colors.buttonText}
+            mode={"outlined"}
+            style={[styles.drawButton]}
+            onPress={() =>
+              navigation.navigate("MyReviewsPage", { isUpdateScreen: true })
+            }
+          >
+            <Text>הביקורות שלי</Text>
+          </Button>
+        </View>
+      )}
       <View style={styles.secondButtonSection}>
         <Button
           icon={"account-arrow-right-outline"}

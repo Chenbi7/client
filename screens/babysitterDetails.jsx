@@ -123,8 +123,8 @@ function BabysitterDetails({ navigation }) {
               onPress={() => {
                 Linking.openURL(
                   "http://api.whatsapp.com/send?phone=+972" +
-                  babysitter.phone.split("-")[0] +
-                  babysitter.phone.split("-")[1]
+                    babysitter.phone.split("-")[0] +
+                    babysitter.phone.split("-")[1]
                 );
               }}
             >

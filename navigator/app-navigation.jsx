@@ -10,6 +10,7 @@ import MeetingsPage from "../screens/meetings";
 import BabysitterDetails from "../screens/babysitterDetails";
 import CustomDrawerContent from "../component/custom-drawer-content";
 import NavigationScreen from "../screens/vavigation-screen";
+import myReviews from "../screens/myReviews";
 
 const AppNavigator = () => {
 
@@ -44,6 +45,9 @@ const AppNavigator = () => {
                 options={{title: 'דף הבית', headerRight: () => {}}}
                 name="HomePageParent"
           component={HomePageParent}/>}
+          <Drawer.Screen
+                options={{title: 'הביקורות שלי'}}
+                name="MyReviewsPage" component={myReviews}/>
             <Drawer.Screen
                 options={{title: 'ביקורות'}}
                 name="ReviewsPage" component={ReviewsPage}/>
